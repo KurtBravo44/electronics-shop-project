@@ -10,3 +10,20 @@ def test_calculate_total_price():
 
 def test_apply_discount():
     assert Item.apply_discount(ex) == None
+
+
+def test_string_to_number():
+    assert Item.string_to_number('2') == 2
+    assert Item.string_to_number('6.5') == 6
+
+
+ex_1 = Item('Car', 100, 5)
+def test_name():
+    ex_1.name = 'SuperCar'
+    assert ex_1.name == "SuperCar"
+    ex_1.name = 'SuperSuperCar'
+    assert ex_1.name == 'SuperSuper'
+
+def test_instantiate_from_csv():
+    Item.instantiate_from_csv('src/items.csv')
+    assert len(Item.all) == 5
