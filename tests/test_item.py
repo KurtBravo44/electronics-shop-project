@@ -2,6 +2,7 @@
 import pytest
 
 from src.item import Item
+
 pay_rate = 2.0
 ex = Item("Холодильник", 5000.0, 10)
 def test_calculate_total_price():
@@ -25,5 +26,12 @@ def test_name():
     assert ex_1.name == 'SuperSuper'
 
 def test_instantiate_from_csv():
-    Item.instantiate_from_csv('src/items.csv')
+    Item.instantiate_from_csv('../src/items.csv')
     assert len(Item.all) == 5
+
+ex_2 = Item('Calculator', 100, 10)
+def test__repr__():
+    assert repr(ex_2) == "Item('Calculator', 100, 10)"
+
+def test__str__():
+    assert  str(ex_2) == 'Calculator'

@@ -19,7 +19,14 @@ class Item:
         self.price = price
         self.quantity = quantity
 
-        #Item.all.append(self)
+        Item.all.append(self)
+    def __repr__(self):
+        return f'{self.__class__.__name__}{self.__name, self.price, self.quantity}'
+
+    def __str__(self):
+        return f'{self.__name}'
+
+
     def calculate_total_price(self) -> float:
         """
         Рассчитывает общую стоимость конкретного товара в магазине.
@@ -47,12 +54,11 @@ class Item:
     @classmethod
     def instantiate_from_csv(cls, data):
         Item.all =[]
-        path = f'../{data}'
-        with open(path, 'r', encoding='windows-1251') as file:
+        with open(data, 'r', encoding='windows-1251') as file:
             f = csv.DictReader(file)
             for i in f:
                 a = Item(i['name'], i['price'], i['quantity'])
-                Item.all.append(a)
+                #Item.all.append(a)
 
 
     @staticmethod
