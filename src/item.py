@@ -20,6 +20,7 @@ class Item:
         self.quantity = quantity
 
         Item.all.append(self)
+
     def __repr__(self):
         return f'{self.__class__.__name__}{self.__name, self.price, self.quantity}'
 
@@ -57,8 +58,8 @@ class Item:
         with open(data, 'r', encoding='windows-1251') as file:
             f = csv.DictReader(file)
             for i in f:
-                a = Item(i['name'], i['price'], i['quantity'])
-                #Item.all.append(a)
+                Item(i['name'], i['price'], i['quantity'])
+
 
 
     @staticmethod
@@ -70,9 +71,10 @@ class Item:
             num = int(num)
             return num
 
-
-
-
+    def __add__(self, other):
+        if not issubclass(other.__class__, self.__class__):
+            raise ValueError('Можно складывать объекты Item и их дочерних')
+        return self.quantity + other.quantity
 
 
 
