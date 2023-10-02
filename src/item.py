@@ -1,5 +1,13 @@
 import csv
 import math
+
+class InstantiateCSVError(Exception):
+    def __init__(self, *args, **kwargs):
+        self.message = 'Файл item.csv поврежден'
+
+    def __str__(self):
+        return self.message
+
 class Item:
     """
     Класс для представления товара в магазине.
@@ -53,12 +61,25 @@ class Item:
         self.__name = name
 
     @classmethod
-    def instantiate_from_csv(cls, data):
-        Item.all =[]
-        with open(data, 'r', encoding='windows-1251') as file:
-            f = csv.DictReader(file)
-            for i in f:
-                Item(i['name'], i['price'], i['quantity'])
+    def instantiate_from_csv(cls, data="../src/items.csv"):
+        try:
+            Item.all =[]
+            with open(data, 'r', encoding='windows-1251') as file:
+
+                f = csv.DictReader(file)
+                len_reader = len(f.fieldnames)
+                if len_reader != 3:
+                    raise InstantiateCSVError
+
+                for i in f:
+                    Item(i['name'], i['price'], i['quantity'])
+
+        except FileNotFoundError:
+            print("Отсутствует файл item.csv")
+            raise
+        except InstantiateCSVError:
+            print("Файл item.csv поврежден")
+            raise
 
 
 
@@ -75,8 +96,4 @@ class Item:
         if not issubclass(other.__class__, self.__class__):
             raise ValueError('Можно складывать объекты Item и их дочерних')
         return self.quantity + other.quantity
-
-
-
-
 
